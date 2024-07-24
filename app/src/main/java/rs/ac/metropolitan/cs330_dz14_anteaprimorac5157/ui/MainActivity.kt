@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.fakes.CompanyFake
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.screen.CompanyListPage
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.theme.CS330DZ14AnteaPrimorac5157Theme
 
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
             CS330DZ14AnteaPrimorac5157Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     CompanyListPage(
-                        companies = CompanyFake.companies,
+                        companies = listOf(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
