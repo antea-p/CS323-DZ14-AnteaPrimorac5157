@@ -36,34 +36,11 @@ fun CompanyListPage(
     companies: List<Company>,
     modifier: Modifier = Modifier
 ) {
-    var selectedTab by remember { mutableStateOf(CompanyType.ENTERTAINMENT) }
-
-    Column(modifier = modifier.fillMaxSize()) {
-        TabRow(
-            selectedTabIndex = selectedTab.ordinal,
-            modifier = Modifier.testTag("TabRow")
-        ) {
-            CompanyType.values().forEach { companyType ->
-                Tab(
-                    selected = selectedTab == companyType,
-                    onClick = { selectedTab = companyType },
-                    text = { Text(companyType.name) },
-                    modifier = Modifier.testTag("Tab_${companyType.name}")
-                )
-            }
-        }
-
-        // TODO: remove this as soon as possible
-        val filteredCompanies = companies.filter { it.type == selectedTab }
-            .sortedWith(
-                compareByDescending<Company> { it.isVatPayer }
-                    .thenByDescending { it.turnover }
-            )
-
-        LazyColumn(modifier = Modifier.testTag("CompanyList")) {
-            items(filteredCompanies) { company ->
-                CompanyItem(company)
-            }
+    LazyColumn(modifier = modifier
+        .fillMaxSize()
+        .testTag("CompanyList")) {
+        items(companies) { company ->
+            CompanyItem(company)
         }
     }
 }
@@ -119,38 +96,36 @@ fun CompanyItem(company: Company) {
 @Composable
 fun CompanyListPagePreview() {
     CS330DZ14AnteaPrimorac5157Theme {
-        Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
-            CompanyListPage(
-                companies = listOf(
-                    Company(
-                        "1",
-                        "TechCorp",
-                        "Leading IT solutions",
-                        5000000.0,
-                        "https://example.com/logo1.png",
-                        CompanyType.IT,
-                        true
-                    ),
-                    Company(
-                        "2",
-                        "CodeMasters",
-                        "Software development experts",
-                        4000000.0,
-                        "https://example.com/logo2.png",
-                        CompanyType.IT,
-                        false
-                    ),
-                    Company(
-                        "3",
-                        "DataDriven",
-                        "Big data solutions",
-                        7000000.0,
-                        "https://example.com/logo3.png",
-                        CompanyType.IT,
-                        true
-                    ),
-                )
+        CompanyListPage(
+            companies = listOf(
+                Company(
+                    "1",
+                    "TechCorp",
+                    "Leading IT solutions",
+                    5000000.0,
+                    "https://example.com/logo1.png",
+                    CompanyType.IT,
+                    true
+                ),
+                Company(
+                    "2",
+                    "CodeMasters",
+                    "Software development experts",
+                    4000000.0,
+                    "https://example.com/logo2.png",
+                    CompanyType.IT,
+                    false
+                ),
+                Company(
+                    "3",
+                    "DataDriven",
+                    "Big data solutions",
+                    7000000.0,
+                    "https://example.com/logo3.png",
+                    CompanyType.IT,
+                    true
+                ),
             )
-        }
+        )
     }
 }
