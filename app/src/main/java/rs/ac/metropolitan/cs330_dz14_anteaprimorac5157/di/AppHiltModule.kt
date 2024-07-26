@@ -12,6 +12,8 @@ import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.network.RetrofitHelp
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.network.RetrofitHelperImpl
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.Repository
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.RepositoryImpl
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCases
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCasesImpl
 import javax.inject.Singleton
 
 
@@ -45,4 +47,10 @@ object AppHiltModule {
         return RepositoryImpl(apiService)
     }
 
+    @Provides
+    @Singleton
+    fun provideUseCases(repository: Repository): UseCases {
+        Log.d("AppHiltModule", "Providing UseCases")
+        return UseCasesImpl(repository)
+    }
 }
