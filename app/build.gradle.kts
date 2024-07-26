@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
