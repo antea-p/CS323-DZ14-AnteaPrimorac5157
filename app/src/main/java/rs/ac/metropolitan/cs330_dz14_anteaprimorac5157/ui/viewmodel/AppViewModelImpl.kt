@@ -1,5 +1,6 @@
 package rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,11 +16,13 @@ import javax.inject.Inject
 class AppViewModelImpl @Inject constructor(
     private val useCases: UseCases
 ) : ViewModel(), AppViewModel {
-    private var currentType: CompanyType? = null
+    private var _currentType: CompanyType? = null
     private var _companies = MutableLiveData<List<Company>>(emptyList())
     private var _isLoading = MutableLiveData<Boolean>(false)
     private var _internetPermissionGranted = MutableLiveData<Boolean>(false)
 
+    override val currentCompanyType: CompanyType?
+        get() = _currentType
     override val companies: LiveData<List<Company>>
         get() = _companies
     override val isLoading: LiveData<Boolean>
@@ -30,7 +33,7 @@ class AppViewModelImpl @Inject constructor(
     override fun loadCompanies() {
         viewModelScope.launch {
             _isLoading.value = true
-            val companiesFlow = currentType?.let { useCases.getCompaniesByType(it) } ?: useCases.getCompanies()
+            val companiesFlow = _currentType?.let { useCases.getCompaniesByType(it) } ?: useCases.getCompanies()
             companiesFlow.collect { companies ->
                 _companies.value = companies
                 _isLoading.value = false
@@ -39,11 +42,12 @@ class AppViewModelImpl @Inject constructor(
     }
 
     override fun setTabCompanyType(companyType: CompanyType) {
-        currentType = companyType
+        _currentType = companyType
         loadCompanies()
     }
 
     override fun setInternetPermissionGranted(granted: Boolean) {
+        Log.d("AppViewModel", "GRANTING ACCESS...")
         _internetPermissionGranted.value = granted
     }
 }

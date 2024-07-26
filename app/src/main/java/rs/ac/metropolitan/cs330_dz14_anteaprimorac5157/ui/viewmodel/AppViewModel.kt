@@ -9,6 +9,8 @@ interface AppViewModel {
     val companies: LiveData<List<Company>>
     val isLoading: LiveData<Boolean>
     val internetPermissionGranted: LiveData<Boolean>
+    val currentCompanyType: CompanyType?
+
     fun loadCompanies()
     fun setTabCompanyType(companyType: CompanyType)
     fun setInternetPermissionGranted(granted: Boolean)
