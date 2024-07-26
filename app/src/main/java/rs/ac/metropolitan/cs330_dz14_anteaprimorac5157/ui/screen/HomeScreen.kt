@@ -23,11 +23,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.viewmodel.AppViewModel
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.viewmodel.AppViewModelImpl
 
 @Composable
-fun HomeScreen(viewModel: AppViewModel) {
+fun HomeScreen(viewModel: AppViewModel = hiltViewModel<AppViewModelImpl>()
+) {
     val internetPermissionGranted by viewModel.internetPermissionGranted.observeAsState(initial = false)
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()

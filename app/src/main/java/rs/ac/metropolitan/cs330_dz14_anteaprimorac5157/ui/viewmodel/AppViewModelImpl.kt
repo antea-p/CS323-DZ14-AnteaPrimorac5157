@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCases
 import javax.inject.Inject
 
-// TODO:
-//@HiltViewModel
+@HiltViewModel
 class AppViewModelImpl @Inject constructor(
     private val useCases: UseCases
 ) : ViewModel(), AppViewModel {
