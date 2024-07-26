@@ -46,15 +46,15 @@ class BusinessRulesTest {
         val companies = flowOf(CompanyFake.companies)
         val result = BusinessRules.applyBusinessRules(companies, CompanyType.IT).first()
 
-        // Check if all companies are of type IT
+        // Provjeri da su sve kompanije istog tipa (u ovom slucaju IT)
         assertTrue(result.all { it.type == CompanyType.IT })
 
-        // Check if VAT-paying companies come first
+        // Provjeri da prednost imaju kompanije u poreznom sistemu
         val vatPayerIndex = result.indexOfLast { it.isVatPayer }
         val nonVatPayerIndex = result.indexOfFirst { !it.isVatPayer }
         assertTrue(vatPayerIndex < nonVatPayerIndex || nonVatPayerIndex == -1)
 
-        // Check if companies are sorted by turnover within each VAT group
+        // Provjeri da su kompanije sortirane po prometu unutar svoje skupine poreznog statusa
         fun isSortedByTurnover(list: List<Company>): Boolean {
             return list.zipWithNext { a, b -> a.turnover >= b.turnover }.all { it }
         }
@@ -65,7 +65,7 @@ class BusinessRulesTest {
         assertTrue(isSortedByTurnover(vatPayers))
         assertTrue(isSortedByTurnover(nonVatPayers))
 
-        // Check specific order based on the example
+        // Provjeri da su rezultati u navedenom redoslijedu, u skladu sa fake podacima
         assertEquals("DataDriven", result[0].name)
         assertEquals("SmartInnovate", result[1].name)
         assertEquals("TechCorp", result[2].name)
