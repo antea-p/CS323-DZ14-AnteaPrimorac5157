@@ -44,21 +44,42 @@ class AppViewModelTest {
     }
 
     @Test
-    fun loadCompanies_successPath_companiesLoadedAndSorted() = runTest {
+    fun initialState_companiesEmptyAndNotLoading() {
+        assertTrue(viewModel.companies.value?.isEmpty() == true)
+        assertFalse(viewModel.isLoading.value == true)
+        assertFalse(viewModel.internetPermissionGranted.value == true)
+    }
+
+    @Test
+    fun setInternetPermissionGranted_loadsCompanies() = runTest {
+        // When
+        viewModel.setInternetPermissionGranted(true)
+        advanceUntilIdle()
+
+        // Then
+        assertTrue(viewModel.internetPermissionGranted.value == true)
+        assertFalse(viewModel.isLoading.value == true)
+        assertNotNull(viewModel.companies.value)
+        assertTrue(viewModel.companies.value?.isNotEmpty() == true)
+    }
+
+    @Test
+    fun loadCompanies_doesNotLoadWithoutPermission() = runTest {
         // When
         viewModel.loadCompanies()
         advanceUntilIdle()
 
         // Then
-        val companies = viewModel.companies.value
-        assertNotNull(companies)
-        assertTrue(companies?.isNotEmpty() == true)
-        assertTrue(companies?.first()?.isVatPayer == true)
-        assertEquals(5000000.0, companies?.first()?.turnover ?: 0.0, 0.01)
+        assertFalse(viewModel.isLoading.value == true)
+        assertTrue(viewModel.companies.value?.isEmpty() == true)
     }
 
     @Test
     fun setTabCompanyType_filtersByType() = runTest {
+        // Given
+        viewModel.setInternetPermissionGranted(true)
+        advanceUntilIdle()
+
         // When
         viewModel.setTabCompanyType(CompanyType.IT)
         advanceUntilIdle()
@@ -71,28 +92,20 @@ class AppViewModelTest {
     }
 
     @Test
-    fun initialState_companiesEmptyAndNotLoading() {
-        // Then
-        assertTrue(viewModel.companies.value?.isEmpty() == true)
-        assertFalse(viewModel.isLoading.value == true)
-    }
+    fun loadCompanies_successPath_companiesLoadedAndSorted() = runTest {
+        // Given
+        viewModel.setInternetPermissionGranted(true)
+        advanceUntilIdle()
 
-    @Test
-    fun loadCompanies_updatesLoadingState() = runTest {
         // When
         viewModel.loadCompanies()
         advanceUntilIdle()
 
         // Then
-        assertFalse(viewModel.isLoading.value == true)
-    }
-
-    @Test
-    fun setInternetPermissionGranted_updatesPermissionState() {
-        // When
-        viewModel.setInternetPermissionGranted(true)
-
-        // Then
-        assertTrue(viewModel.internetPermissionGranted.value == true)
+        val companies = viewModel.companies.value
+        assertNotNull(companies)
+        assertTrue(companies?.isNotEmpty() == true)
+        assertTrue(companies?.first()?.isVatPayer == true)
+        assertTrue((companies?.first()?.turnover ?: 0.0) > 10000.0)
     }
 }

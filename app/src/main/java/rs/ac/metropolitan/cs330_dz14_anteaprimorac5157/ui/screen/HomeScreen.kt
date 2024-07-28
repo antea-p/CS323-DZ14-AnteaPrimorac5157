@@ -50,7 +50,7 @@ fun HomeScreen(viewModel: AppViewModel = hiltViewModel<AppViewModelImpl>()
             InternetPermission(launcher)
         } else {
             CompanyTabs(viewModel)
-            if (isLoading.value) {
+            if (isLoading.value || companies.value.isEmpty()) {
                 Text("Loading...")
             } else {
                 CompanyListPage(companies = companies.value)

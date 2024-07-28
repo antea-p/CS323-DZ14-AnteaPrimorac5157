@@ -88,4 +88,18 @@ class HomeScreenTest {
             composeTestRule.waitForIdle()
         }
     }
+
+    @Test
+    fun loadingTextDisplayedInitially() {
+        composeTestRule.setContent {
+            HomeScreen(viewModel)
+        }
+
+        composeTestRule.runOnUiThread {
+            viewModel.setInternetPermissionGranted(true)
+        }
+
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithText("Loading...").assertIsDisplayed()
+    }
 }

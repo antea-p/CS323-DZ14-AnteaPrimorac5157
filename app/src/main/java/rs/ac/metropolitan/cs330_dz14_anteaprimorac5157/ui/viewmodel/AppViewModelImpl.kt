@@ -30,12 +30,14 @@ class AppViewModelImpl @Inject constructor(
         get() = _internetPermissionGranted
 
     override fun loadCompanies() {
-        viewModelScope.launch {
-            _isLoading.value = true
-            val companiesFlow = _currentType?.let { useCases.getCompaniesByType(it) } ?: useCases.getCompanies()
-            companiesFlow.collect { companies ->
-                _companies.value = companies
-                _isLoading.value = false
+        if (_internetPermissionGranted.value == true) {
+            viewModelScope.launch {
+                _isLoading.value = true
+                val companiesFlow = _currentType?.let { useCases.getCompaniesByType(it) } ?: useCases.getCompanies()
+                companiesFlow.collect { companies ->
+                    _companies.value = companies
+                    _isLoading.value = false
+                }
             }
         }
     }
@@ -47,5 +49,9 @@ class AppViewModelImpl @Inject constructor(
 
     override fun setInternetPermissionGranted(granted: Boolean) {
         _internetPermissionGranted.value = granted
+        if (granted) {
+            loadCompanies()
+        }
     }
+
 }
