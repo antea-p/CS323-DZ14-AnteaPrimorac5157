@@ -1,28 +1,42 @@
 package rs.ac.metropolitan.cs330_dz14_anteaprimorac5157
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.fakes.CompanyFake
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.network.ApiService
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.Repository
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.RepositoryImpl
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.fakes.Fakes
+import javax.inject.Inject
+import javax.inject.Named
 
+@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class RepositoryImplTest {
 
-    private lateinit var repository: Repository
-    private lateinit var apiService: ApiService
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    @Named("fake_apiservice")
+    lateinit var apiService: ApiService
+
+    @Inject
+    lateinit var repository: Repository
 
     @Before
     fun setup() {
-        apiService = Fakes.FakeApiService()
-        repository = RepositoryImpl(apiService)
+        hiltRule.inject()
     }
 
     @Test

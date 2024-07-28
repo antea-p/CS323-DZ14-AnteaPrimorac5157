@@ -1,6 +1,5 @@
 package rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,7 +46,6 @@ class AppViewModelImpl @Inject constructor(
     }
 
     override fun setInternetPermissionGranted(granted: Boolean) {
-        Log.d("AppViewModel", "GRANTING ACCESS...")
         _internetPermissionGranted.value = granted
     }
 }

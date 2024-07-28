@@ -1,27 +1,42 @@
 package rs.ac.metropolitan.cs330_dz14_anteaprimorac5157
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.fakes.CompanyFake
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.Repository
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.di.Fakes
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCases
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCasesImpl
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.fakes.Fakes
+import javax.inject.Inject
+import javax.inject.Named
 
+@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class UseCasesImplTest {
-    private lateinit var useCases: UseCases
-    private lateinit var repository: Repository
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var useCases: UseCases
+
+    @Inject
+    @Named("fake_repository")
+    lateinit var repository: Repository
 
     @Before
     fun setup() {
-        repository = Fakes.FakeRepository()
-        useCases = UseCasesImpl(repository)
+        hiltRule.inject()
     }
 
     @Test

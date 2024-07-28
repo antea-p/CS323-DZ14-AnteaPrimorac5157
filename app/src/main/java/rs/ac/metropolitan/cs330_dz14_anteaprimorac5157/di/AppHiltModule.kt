@@ -20,6 +20,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppHiltModule {
+    private const val TAG = "AppHiltModule";
+
     @Provides
     @Singleton
     fun provideContext(application: Application): Context {
@@ -30,27 +32,27 @@ object AppHiltModule {
     @Provides
     @Singleton
     fun provideRetrofitHelper(): RetrofitHelper {
-        Log.d("AppHiltModule", "Providing RetrofitHelper")
+        Log.d(TAG, "Providing RetrofitHelper")
         return RetrofitHelperImpl()
     }
     @Provides
     @Singleton
     fun provideApiService(retrofitHelper: RetrofitHelper): ApiService {
-        Log.d("AppHiltModule", "Providing ApiService")
+        Log.d(TAG, "Providing ApiService")
         return retrofitHelper.getApiService()
     }
 
     @Provides
     @Singleton
     fun provideRepository(apiService: ApiService): Repository {
-        Log.d("AppHiltModule", "Providing Repository")
+        Log.d(TAG, "Providing Repository")
         return RepositoryImpl(apiService)
     }
 
     @Provides
     @Singleton
     fun provideUseCases(repository: Repository): UseCases {
-        Log.d("AppHiltModule", "Providing UseCases")
+        Log.d(TAG, "Providing UseCases")
         return UseCasesImpl(repository)
     }
 }

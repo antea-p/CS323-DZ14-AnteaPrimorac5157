@@ -26,10 +26,10 @@ class BusinessRulesTest {
         val companies = flowOf(CompanyFake.companies.filter { it.type == CompanyType.IT })
         val sortedCompanies = BusinessRules.sortCompaniesByVatStatusAndTurnover(companies).first()
 
-        // Check if VAT-paying companies come first
+        // Provjeri da prednost imaju kompanije u poreznom sistemu
         assertTrue(sortedCompanies.takeWhile { it.isVatPayer }.size >= sortedCompanies.dropWhile { it.isVatPayer }.size)
 
-        // Check if companies are sorted by turnover within each VAT group
+        // Provjeri da su sve kompanije sa istim poreznim statusom sortirane padajuće po prometu
         fun isSortedByTurnover(list: List<Company>): Boolean {
             return list.zipWithNext { a, b -> a.turnover >= b.turnover }.all { it }
         }

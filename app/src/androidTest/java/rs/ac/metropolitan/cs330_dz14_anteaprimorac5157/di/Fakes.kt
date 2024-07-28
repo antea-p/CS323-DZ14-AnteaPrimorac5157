@@ -49,7 +49,7 @@ object Fakes {
         }
     }
 
-    class FakeApiService : ApiService {
+    class ApiServiceFake : ApiService {
         private val companies = CompanyFake.companies.toMutableList()
 
         override suspend fun getAll(): List<Company> = companies
@@ -64,7 +64,7 @@ object Fakes {
     }
 
 
-    class FakeRepository : Repository {
+    class RepositoryFake : Repository {
         private val companies = CompanyFake.companies.toMutableList()
 
         override suspend fun loadCompanies(): Flow<List<Company>> = flow { emit(companies) }
