@@ -13,10 +13,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.fakes.CompanyFake
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.fakes.CompanyFake
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.network.ApiService
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.Repository
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.RepositoryImpl
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.Common
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.fakes.CompanyFake.companies
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -53,7 +54,7 @@ class RepositoryImplTest {
 
     @Test
     fun addCompany_addsCompanySuccessfully() = runBlocking {
-        val newCompany = Company("100", "NewCorp", "New Company", 1000000.0, "newlogo.png", CompanyType.TRADE, false)
+        val newCompany = Company("100", "NewCorp", "New Company", 1000000.0, Common.generateAvatarImage("NewCorp").toString(), CompanyType.TRADE, false)
         repository.add(newCompany)
 
         val companies = repository.loadCompanies().first()

@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.network.ApiService
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.Common
 
 class ApiServiceTest {
     private lateinit var mockWebServer: MockWebServer
@@ -58,7 +59,7 @@ class ApiServiceTest {
 
     @Test
     fun `add successfully adds a company`() = runBlocking {
-        val company = Company("2", "NewCorp", "New Business", 500000.0, "https://example.com/logo2.png", CompanyType.TRADE, false)
+        val company = Company("2", "NewCorp", "New Business", 500000.0, Common.generateAvatarImage("NewCorp").toString(), CompanyType.TRADE, false)
 
         mockWebServer.enqueue(MockResponse().setResponseCode(200))
 

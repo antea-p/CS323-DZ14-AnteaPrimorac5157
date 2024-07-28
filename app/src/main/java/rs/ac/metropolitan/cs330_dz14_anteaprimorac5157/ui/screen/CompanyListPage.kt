@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -22,13 +24,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import android.content.Context
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.Common
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.ui.theme.CS330DZ14AnteaPrimorac5157Theme
 
 @Composable
@@ -36,9 +44,11 @@ fun CompanyListPage(
     companies: List<Company>,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier
-        .fillMaxSize()
-        .testTag("CompanyList")) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("CompanyList")
+    ) {
         items(companies) { company ->
             CompanyItem(company)
         }
@@ -57,12 +67,14 @@ fun CompanyItem(company: Company) {
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // TODO: kopirati generiranje slike
-            // AsyncImage(
-            //     model = company.logoUrl,
-            //     contentDescription = null,
-            //     modifier = Modifier.size(64.dp)
-            // )
+            AsyncImage(
+            model = Common.generateAvatarImage(company.name).toString(),
+            contentDescription = null,
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .testTag("CompanyLogo_${company.id}")
+            )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
@@ -103,7 +115,7 @@ fun CompanyListPagePreview() {
                     "TechCorp",
                     "Leading IT solutions",
                     5000000.0,
-                    "https://example.com/logo1.png",
+                    "TechCorp",
                     CompanyType.IT,
                     true
                 ),
@@ -112,8 +124,8 @@ fun CompanyListPagePreview() {
                     "CodeMasters",
                     "Software development experts",
                     4000000.0,
-                    "https://example.com/logo2.png",
-                    CompanyType.IT,
+                    "CodeMasters",
+                     CompanyType.IT,
                     false
                 ),
                 Company(
@@ -121,8 +133,8 @@ fun CompanyListPagePreview() {
                     "DataDriven",
                     "Big data solutions",
                     7000000.0,
-                    "https://example.com/logo3.png",
-                    CompanyType.IT,
+                    "DataDriven",
+                     CompanyType.IT,
                     true
                 ),
             )

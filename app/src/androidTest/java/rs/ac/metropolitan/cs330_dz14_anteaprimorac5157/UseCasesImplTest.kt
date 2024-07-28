@@ -13,11 +13,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.Company
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.CompanyType
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.model.fakes.CompanyFake
+import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.fakes.CompanyFake
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.data.repository.Repository
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.di.Fakes
 import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCases
-import rs.ac.metropolitan.cs330_dz14_anteaprimorac5157.domain.UseCasesImpl
 import javax.inject.Inject
 import javax.inject.Named
 
